@@ -1,0 +1,4 @@
+tensorboardx
+scipy
+pandas
+pyyaml

@@ -1,0 +1,11 @@
+/exp/
+/.idea/
+/lib/pointgroup_ops/build/
+/lib/pointgroup_ops/PG_OP.egg-info/
+/lib/pointgroup_ops/PG_OP.cpython-36m-x86_64-linux-gnu.so
+/pcdet.egg-info/
+/lib/pcdet/build/
+/lib/pcdet/pcdet.egg-info/
+/lib/pcdet/dist/
+/lib/pcdet/ops/pointnet2/pointnet2_stack/pointnet2_stack_cuda.cpython-36m-x86_64-linux-gnu.so
+/lib/pcdet/ops/pointnet2/pointnet2_batch/pointnet2_batch_cuda.cpython-36m-x86_64-linux-gnu.so

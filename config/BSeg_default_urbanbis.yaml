@@ -1,0 +1,89 @@
+GENERAL:
+  task: train  # train, test
+  manual_seed: 123
+  model_dir: model/BSeg.py
+  dataset_dir: dataset/UrbanBIS/urbanbis_inst.py
+  device: "cuda"
+
+DATA:
+  data_root: dataset/UrbanBIS/processed
+  dataset: ['Qingdao']  # experiment only on the Qingdao city
+  filename_suffix: _inst_nostuff.pth   # _inst_nostuff.pth or .txt
+
+  classes: 7
+  ignore_label: -100
+  class_weight: [1., 1., 1., 1., 1., 1., 1.]  # non-class weight
+# ['terrain', 'vegetation', 'water', 'bridge', 'vehicle', 'boat', 'building']
+
+  building_class: 6
+
+  input_channel: 3
+  scale: 3   # voxel_size = 1 / scale (m)
+  batch_size: 4
+  full_scale: [128, 512]
+  max_npoint: 500000
+  mode: 4 # 4=mean
+
+  candidate_scale: 2000  # 1 / scale, 1 candidate for every 2000 points
+  max_candidate: 120
+
+  offset_dim: 2 # dimension of offset vector (2 for xy, 3 for xyz)
+  radius: 1.5 # radius of the queried ball
+  nsample: 20 # max number of point in the balls neighborhood
+
+  merge_thres: 9 # distance for merging offset candidate points
+
+STRUCTURE:
+  model_name: BSeg
+  m: 16 # 16 or 32
+  using_xyz: True
+  using_rgb: True
+  using_normal: False
+  block_residual: True
+  block_reps: 2
+
+  use_coords: True
+
+TRAIN:
+  epochs: 400
+  train_workers: 0 # data loader workers
+  optim: Adam # Adam or SGD
+  lr: 0.001
+  step_epoch: 200
+  multiplier: 0.5
+  momentum: 0.9
+  weight_decay: 0.0001
+  save_freq: 12  # also eval_freq
+
+  fg_thresh: 0.75
+  bg_thresh: 0.25
+
+  delta_1: 0.5  # for the embedding loss
+  delta_2: 1.5
+  weight_push: 1
+  weight_pull: 1
+  weight_reg: 0.1
+
+  score_scale: 3 # voxel_size = 1 / scale (m), the same as scale
+  score_fullscale: 20
+  score_mode: 4 # mean
+
+  pretrain_path:
+  pretrain_module: []
+  fix_module: []
+
+  prepare_epochs: 128
+
+TEST:
+  split: test_w_label
+  test_epoch: 400
+  test_workers: 0
+  test_seed: 567
+
+  TEST_SCORE_THRESH: 0.1
+  TEST_NPOINT_THRESH: 500
+
+  eval: True
+  save_semantic: False
+  save_pt_offsets: False
+  save_instance: False
